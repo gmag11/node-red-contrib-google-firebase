@@ -20,6 +20,9 @@ module.exports = function (RED) {
                 this.status({ fill: "green", shape: "ring", text: "Connected" });
                 this.on('input', function (msg) {
                         if (this.firebaseConfig.fbConfig.fbApp) {
+                                if(msg.hasOwnProperty("childpath")){
+                                   this.childpath = msg.childpath;
+                                }
                                 firebase.database().ref(this.childpath).update(msg.payload);
                                 node.status({ fill: "green", shape: "ring", text: "Updated Data at " + Utils.getTime() });
                                 node.send(msg);

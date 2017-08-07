@@ -19,6 +19,9 @@ module.exports = function (RED) {
                 this.status({ fill: "green", shape: "ring", text: "Connected" });
                 this.on('input', function (msg) {
                         if (this.firebaseConfig.fbConfig.fbApp) {
+                                if(msg.hasOwnProperty("childpath")){
+                                   this.childpath = msg.childpath;
+                                }
                                 if (msg.payload.Type && msg.payload.Type == "ModeChange") {
                                         msg.payload.Footer = ' at ' + Utils.getNotificationTime();
                                 }

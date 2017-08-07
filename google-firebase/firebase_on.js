@@ -31,6 +31,9 @@ module.exports = function (RED) {
             node.status({ fill: "green", shape: "ring", text: "Connected" });
 
             node.on('input', function(msg) {
+                  if(msg.hasOwnProperty("childpath")){
+                    this.childpath = msg.childpath;
+                  }
                   if (!node.firebaseConfig.fbConfig.fbApp) {
                         return;
                   }
