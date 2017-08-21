@@ -1,6 +1,7 @@
 module.exports = function(RED) {
       var firebase = require('firebase');
       var Utils = require('./utils/utils');
+	  var result = false;
 
       function FirebaseOpen(config) {
             RED.nodes.createNode(this, config);
@@ -11,6 +12,7 @@ module.exports = function(RED) {
                         node.log("Session Opened...");
                         node.send({"auth": true});
                         node.status({ fill: "green", shape: "ring", text: "Auth at " + Utils.getTime()});
+						result = true;
                   }, function(error) {
                         var errorCode = error.code;
                         var errorMessage = error.message;
@@ -22,6 +24,9 @@ module.exports = function(RED) {
             }
             node.on('input', function(msg) {
                   open();
+				  payload = "Auth at " + Utils.getTime();
+				  msg.payload = payload;
+				  msg.auth = result;
             });
       }
       RED.nodes.registerType("google-firebase-open", FirebaseOpen);
